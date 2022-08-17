@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/DmytroVoitovych/goit-react-hw-04-images/static/css/main.10593e86.css",
+    "main.js": "/DmytroVoitovych/goit-react-hw-04-images/static/js/main.b1f02cb8.js",
+    "index.html": "/DmytroVoitovych/goit-react-hw-04-images/index.html",
+    "main.10593e86.css.map": "/DmytroVoitovych/goit-react-hw-04-images/static/css/main.10593e86.css.map",
+    "main.b1f02cb8.js.map": "/DmytroVoitovych/goit-react-hw-04-images/static/js/main.b1f02cb8.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.10593e86.css",
+    "static/js/main.b1f02cb8.js"
+  ]
+}
