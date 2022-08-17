@@ -1,0 +1,10 @@
+
+
+ .form{
+        display: flex;
+            padding: 20px 0;
+            background-color: #4354B0;
+            justify-content: center;
+            gap: 10px;
+}
+

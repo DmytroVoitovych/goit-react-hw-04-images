@@ -1,0 +1,56 @@
+
+.gallery{
+        display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            row-gap: 10px;
+            column-gap: 15px;
+
+            list-style: none;
+            padding: 0;
+}
+
+.item  {
+    display: block;
+    width: 360px;
+    height: 200px;
+    background-color: black;
+
+
+}
+
+@media screen and (min-width: 800px) and (max-width: 1200px) {
+
+    .item  {
+        display: block;
+        width: 30vw;
+        height: 200px;
+
+
+    }
+
+}
+
+@media screen and (min-width: 620.5px) and (max-width: 799.5px) {
+
+    .item {
+        display: block;
+        width: 45vw;
+        height: 200px;
+
+
+    }
+
+}
+
+@media screen and (max-width: 620px) {
+
+    .item  {
+        display: block;
+        width: 90vw;
+        height: 60vw;
+
+
+    }
+
+}
