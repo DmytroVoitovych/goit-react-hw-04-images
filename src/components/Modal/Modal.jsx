@@ -1,45 +1,34 @@
-import { Component } from "react";
+import { useEffect, } from "react";
 import { createPortal } from "react-dom";
 import css from './Modal.module.css';
 const modal = document.querySelector('#modal');
 
-export class Modal extends Component {
+export const Modal = ( {large, onClose})=> {
+  
+    useEffect(() => {
+        window.addEventListener('keydown', funcKeyDown);
+       return ()=> window.removeEventListener('keydown', funcKeyDown);// анонимка для отмены слежения
+    }, []);
     
-       
-    componentDidMount() {
-        window.addEventListener('keydown',this.funcKeyDown );
-    }
-    
-    componentWillUnmount() {
-     window.removeEventListener('keydown', this.funcKeyDown);
-             
-    }
-
-    funcKeyDown = e => {
+   const  funcKeyDown = e => {
             if (e.code === 'Escape' ) {
-                // console.log('esc');
-                this.props.onClose();
+                onClose();
             }
     }
     
-    funcClickBackdrop = e => { 
+   const  funcClickBackdrop = e => { 
         if (e.target === e.currentTarget) {
-            console.log('click back');
-            this.props.onClose();
+            onClose();
         }
     };
 
-
-    render() {
-        console.log('работает');
-        console.log(this.props.large);
         return createPortal(
-            <div className={css.overlay}  onClick={this.funcClickBackdrop}>
+            <div className={css.overlay}  onClick={funcClickBackdrop}>
                 <div className={css.modal}>
-                    <img src={`${this.props.large[0]}`} alt={this.props.large[1]} />
+                    <img src={`${large[0]}`} alt={large[1]} />
                 </div>
             </div>, modal
             
         );
-    };
+    
 };
