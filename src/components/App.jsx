@@ -65,7 +65,7 @@ export const App = () => {
       setStatus('pending');
           
       Fetch(value, page).then(itemH => {
-        setItem(item.concat(...itemH.hits));
+        setItem(()=>item.concat(...itemH.hits));
         if (itemH.hits.length > 0) { return setStatus('resolved'); }
 
         else if (itemH.totalHits === item.length && item.length !== 0) {
@@ -77,11 +77,12 @@ export const App = () => {
           return Promise.reject(new Error(`There are no images for this query:  ${value} `),);
         }
       })
-        .catch(errorH => { setError(errorH); setStatus('rejected'); Report.failure('Error', error); });
+        .catch(errorH => { setError(()=>errorH); setStatus('rejected'); Report.failure('Error', error); });
     }
     
     else { return; }
-  }, [value, page]); // item no need observ 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [value, page]); // item no need observ //убрал ошибку по не надобности мне следить за item 
      
   const addPage = () => setPage(prevState => prevState + 1);
   
