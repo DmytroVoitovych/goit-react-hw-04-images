@@ -7,7 +7,8 @@ export const Modal = ( {large, onClose})=> {
   
     useEffect(() => {
         window.addEventListener('keydown', funcKeyDown);
-       return ()=> window.removeEventListener('keydown', funcKeyDown);// анонимка для отмены слежения
+        return () => window.removeEventListener('keydown', funcKeyDown);// анонимка для отмены слежения
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
     
    const  funcKeyDown = e => {
