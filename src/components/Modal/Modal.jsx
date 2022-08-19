@@ -1,22 +1,22 @@
-import { useEffect, } from "react";
+import { useEffect, useCallback } from "react";
 import { createPortal } from "react-dom";
 import css from './Modal.module.css';
 const modal = document.querySelector('#modal');
 
 export const Modal = ( {large, onClose})=> {
-  
+    
+    const funcKeyDown = useCallback((e) => {
+        if (e.code === 'Escape') {
+           onClose();
+        }
+    }, [onClose]);
+
     useEffect(() => {
         window.addEventListener('keydown', funcKeyDown);
         return () => window.removeEventListener('keydown', funcKeyDown);// анонимка для отмены слежения
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
-    
-   const  funcKeyDown = e => {
-            if (e.code === 'Escape' ) {
-                onClose();
-            }
-    }
-    
+        
+    }, [funcKeyDown]);
+        
    const  funcClickBackdrop = e => { 
         if (e.target === e.currentTarget) {
             onClose();

@@ -1,4 +1,5 @@
 import { useState, useEffect, } from "react";
+import { usePrevious } from "react-delta";
 import { Searchbar } from "./Searchbar/Searchbar";
 import { ImageGallery } from "./ImageGallery/ImageGallery";
 import { Button } from 'components/Button/Button';
@@ -21,13 +22,14 @@ export const App = () => {
   const [error, setError] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [large, setLarge] = useState(null);
+
+  const prevV = usePrevious(value); 
+  const prevP = usePrevious(page);
  
   const funcToglle = (e, large, alt) => {
     setShowModal(!showModal);
     setLarge([large, alt]);
   };
-
- 
 
   const funcToglleEsc = () => setShowModal(!showModal);
       
@@ -56,33 +58,34 @@ export const App = () => {
   useEffect(() => {
         window.addEventListener("scroll", funcScroll);
         return () => window.removeEventListener("scroll", funcScroll);
-    }, []);
-         
+  }, []);
+           
   useEffect(() => {
-   
-    if (value) {
+    if (value) { // проверка для того что бы не было вызова при пустой строке
+      if (value !== prevV|| page !== prevP) {
      
-      setStatus('pending');
+        setStatus('pending');
           
-      Fetch(value, page).then(itemH => {
-        setItem(()=>item.concat(...itemH.hits));
-        if (itemH.hits.length > 0) { return setStatus('resolved'); }
+        Fetch(value, page).then(itemH => {
+          setItem(() => item.concat(...itemH.hits));
+          if (itemH.hits.length > 0) { return setStatus('resolved'); }
 
-        else if (itemH.totalHits === item.length && item.length !== 0) {
-          setStatus('idle');
-          Notify.info('There are no more images.');
-        }
-        else if (itemH.hits.length === 0) {
-          setStatus('rejected');
-          return Promise.reject(new Error(`There are no images for this query:  ${value} `),);
-        }
-      })
-        .catch(errorH => { setError(()=>errorH); setStatus('rejected'); Report.failure('Error', error); });
+          else if (itemH.totalHits === item.length && item.length !== 0) {
+            setStatus('idle');
+            Notify.info('There are no more images.');
+          }
+          else if (itemH.hits.length === 0) {
+            setStatus('rejected');
+            return Promise.reject(new Error(`There are no images for this query:  ${value} `),);
+          }
+        })
+          .catch(errorH => { setError(() => errorH); setStatus('rejected'); Report.failure('Error', error); });
+      }
+    
+      else { return; }
     }
     
-    else { return; }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [value, page]); // item no need observ //убрал ошибку по не надобности мне следить за item 
+  },[value, page, item, error, prevV, prevP]); // item no need observ //убрал ошибку по не надобности мне следить за item 
      
   const addPage = () => setPage(prevState => prevState + 1);
   
